@@ -1,0 +1,146 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "sku": {
+            "type": "string"
+        },
+        "zones": {
+            "type": "array"
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2019-09-01",
+            "type": "Microsoft.Network/natGateways",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "sku": {
+                "name": "[parameters('sku')]"
+            },
+            "zones": "[parameters('zones')]",
+            "properties": {
+                "publicIPAddresses": [
+                    {
+                        "id": "[resourceId('Microsoft.Network/publicIpAddresses/', 'test-public-ip')]"
+                    }
+                ],
+                "publicIPPrefixes": [],
+                "idleTimeoutInMinutes": 4
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIpAddresses/', 'test-public-ip')]"
+            ]
+        },
+        {
+            "apiVersion": "2022-05-01",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "name": "test-public-ip",
+            "location": "japaneast",
+            "sku": {
+                "name": "Standard"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Static"
+            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
+            "name": "VirtualNetworkAssociation-20230807183758",
+            "resourceGroup": "test-rg-001",
+            "dependsOn": [
+                "[concat('Microsoft.Network/natGateways/', parameters('name'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "name": "my-vnet-01",
+                            "id": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/virtualNetworks/my-vnet-01",
+                            "type": "Microsoft.Network/virtualNetworks",
+                            "location": "japaneast",
+                            "properties": {
+                                "provisioningState": "Succeeded",
+                                "resourceGuid": "c9b20ff3-9c4a-4cd5-bd4f-b0a0da348930",
+                                "addressSpace": {
+                                    "addressPrefixes": [
+                                        "10.1.0.0/16"
+                                    ]
+                                },
+                                "subnets": [
+                                    {
+                                        "name": "my-test-subnet-db",
+                                        "id": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/virtualNetworks/my-vnet-01/subnets/my-test-subnet-db",
+                                        "properties": {
+                                            "provisioningState": "Succeeded",
+                                            "addressPrefix": "10.1.1.0/24",
+                                            "ipConfigurations": [
+                                                {
+                                                    "id": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/networkInterfaces/test-bast626_z1/ipConfigurations/ipconfig1"
+                                                },
+                                                {
+                                                    "id": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/networkInterfaces/test-resarch-001638_z1/ipConfigurations/ipconfig1"
+                                                }
+                                            ],
+                                            "delegations": [],
+                                            "privateEndpointNetworkPolicies": "Disabled",
+                                            "privateLinkServiceNetworkPolicies": "Enabled"
+                                        },
+                                        "type": "Microsoft.Network/virtualNetworks/subnets"
+                                    },
+                                    {
+                                        "name": "GatewaySubnet",
+                                        "id": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/virtualNetworks/my-vnet-01/subnets/GatewaySubnet",
+                                        "properties": {
+                                            "provisioningState": "Succeeded",
+                                            "addressPrefix": "10.1.0.0/24",
+                                            "ipConfigurations": [
+                                                {
+                                                    "id": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/virtualNetworkGateways/test-my-vnetgw/ipConfigurations/default"
+                                                }
+                                            ],
+                                            "delegations": [],
+                                            "privateEndpointNetworkPolicies": "Disabled",
+                                            "privateLinkServiceNetworkPolicies": "Enabled"
+                                        },
+                                        "type": "Microsoft.Network/virtualNetworks/subnets"
+                                    },
+                                    {
+                                        "name": "my-test-subnet-nat",
+                                        "id": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/virtualNetworks/my-vnet-01/subnets/my-test-subnet-nat",
+                                        "properties": {
+                                            "provisioningState": "Succeeded",
+                                            "addressPrefix": "10.1.2.0/25",
+                                            "serviceEndpoints": [],
+                                            "delegations": [],
+                                            "privateEndpointNetworkPolicies": "Disabled",
+                                            "privateLinkServiceNetworkPolicies": "Enabled",
+                                            "natGateway": {
+                                                "id": "[resourceId('Microsoft.Network/natGateways/', parameters('name'))]"
+                                            }
+                                        },
+                                        "type": "Microsoft.Network/virtualNetworks/subnets"
+                                    }
+                                ],
+                                "virtualNetworkPeerings": [],
+                                "enableDdosProtection": false
+                            },
+                            "apiVersion": "2021-05-01"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

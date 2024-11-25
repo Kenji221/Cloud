@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "japaneast"
+        },
+        "name": {
+            "value": "test-nat-gw-001"
+        },
+        "sku": {
+            "value": "Standard"
+        },
+        "zones": {
+            "value": []
+        }
+    }
+}

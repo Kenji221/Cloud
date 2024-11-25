@@ -1,0 +1,78 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "japaneast"
+        },
+        "networkInterfaceName1": {
+            "value": "test-vm-bastion-001245_z1"
+        },
+        "subnetName": {
+            "value": "my-test-subnet-db"
+        },
+        "virtualNetworkId": {
+            "value": "/subscriptions/6df3c514-89fb-49a0-9754-e61d7d1af7ec/resourceGroups/test-rg-001/providers/Microsoft.Network/virtualNetworks/my-vnet-01"
+        },
+        "virtualMachineName": {
+            "value": "test-vm-bastion-001"
+        },
+        "virtualMachineName1": {
+            "value": "test-vm-bastion-001"
+        },
+        "virtualMachineComputerName1": {
+            "value": "test-vm-bastion-001"
+        },
+        "virtualMachineRG": {
+            "value": "test-rg-001"
+        },
+        "osDiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "osDiskDeleteOption": {
+            "value": "Delete"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B1ls"
+        },
+        "nicDeleteOption": {
+            "value": "Detach"
+        },
+        "adminUsername": {
+            "value": "azureuser"
+        },
+        "adminPublicKey": {
+            "value": null
+        },
+        "securityType": {
+            "value": "TrustedLaunch"
+        },
+        "secureBoot": {
+            "value": true
+        },
+        "vTPM": {
+            "value": true
+        },
+        "virtualMachine1Zone": {
+            "value": "1"
+        },
+        "autoShutdownStatus": {
+            "value": "Enabled"
+        },
+        "autoShutdownTime": {
+            "value": "19:00"
+        },
+        "autoShutdownTimeZone": {
+            "value": "Tokyo Standard Time"
+        },
+        "autoShutdownNotificationStatus": {
+            "value": "Enabled"
+        },
+        "autoShutdownNotificationLocale": {
+            "value": "en"
+        },
+        "autoShutdownNotificationEmail": {
+            "value": "KaminogoKenji@mctopstest.onmicrosoft.com"
+        }
+    }
+}
