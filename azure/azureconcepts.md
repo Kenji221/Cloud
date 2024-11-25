@@ -1,5 +1,9 @@
 # Overview
 - [Overview](#overview)
+- [Basic Configuration](#basic-configuration)
+  - [Tenant vs Resource Group vs Subscription](#tenant-vs-resource-group-vs-subscription)
+- [Performance](#performance)
+  - [Performance Metrics](#performance-metrics)
 - [Security](#security)
   - [Azure Security基本的な考え方](#azure-security基本的な考え方)
   - [Azure blob storage のアクセス方法について](#azure-blob-storage-のアクセス方法について)
@@ -23,7 +27,19 @@
     - [Network](#network-1)
     - [Pricing Tier](#pricing-tier)
 
+# Basic Configuration
+## Tenant vs Resource Group vs Subscription
+* Tenant
+  The root of Microsoft Services, including azure Micorsoft 365 and users. It is also the same as Azure Active Directory instance, which stores users and group information
+  A single tenant can contain several subscritions
+* Subscription
+ A subscription is linked to a payment method, and can hold several azure resources. 
+* Resource group
+ A logical container within a subscription that organizes each resources. You can create multiple resouce groups within a subsciption to segregate resources  
 
+# Performance 
+## Performance Metrics
+https://jpaztech.github.io/blog/vm/disk-metrics/
 
 # Security
 ## Azure Security基本的な考え方  
@@ -142,11 +158,11 @@ Azure BastionはP2S VPNと違ってAzureの中のサービスについて利用�
   
   
 **サービスエンドポイントとプライベートエンドポイントとパブリックエンドポイントの違いについて**  
-|エンドポイント|経路|
-|:-|:---|
-|パブリックエンドポイント|インターネットを経由してパブリックIPアドレスで接続|
-|サービスエンドポイント|	Azureバックボーンを経由してパブリックIPアドレスで接続|
-|プライベートエンドポイント|	Azureバックボーンを経由してプライベートIPアドレスで接続|　　
+| エンドポイント             | 経路                                                    |
+| :------------------------- | :------------------------------------------------------ |
+| パブリックエンドポイント   | インターネットを経由してパブリックIPアドレスで接続      |
+| サービスエンドポイント     | Azureバックボーンを経由してパブリックIPアドレスで接続   |
+| プライベートエンドポイント | Azureバックボーンを経由してプライベートIPアドレスで接続 |
 
 ![Alt text](image-2.png)
 ![Alt text](image.png)
