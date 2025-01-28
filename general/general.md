@@ -177,6 +177,8 @@ kubectl get pods
 kubectl get pods -o wide
 kubectl describe pod <name of the pod>
 kubectl delete pod <name of the pod>
+
+# The definition below can also create replica-sets as well
 kubectl create -f <YAML File name>
 
 # create a yaml file
@@ -191,7 +193,25 @@ kubectl apply -f redis-definition.yaml
 # get the replication controller
 kubectl get repolicationcontroller
 
-kubectl
+# Replica sets
+kubectl describe replicaset <NameOfReplicaSet>
+kubectl delete replicasets.apps replicaset-1 
+kubectl scale replicaset new-replica-set --replicas 5
+
+kubectl get all 
+
+# Deployments
+# How to initiate a rolling update for a yml file
+kubectl apply -f deployment-conf.yml
+kubectl set image deploy <deployment-name> <containername>=nginx:1.9.1
+# Roll back to the deployed containers originally
+kubectl create -f deployment.yaml --record
+kubectl rollout undo deployment/myapp-deployment
+kubectl rollout status deployment.apps/myapp-deployment
+kubectl delete deployment myapp-deployment
+kubectl rollout history deployment.apps/myapp-deployment
+kubectl edit deployment myapp-deployment --record
+
 
 ```
 ```yml
@@ -238,7 +258,8 @@ spec:
   replicas: 3
 ```
 - Replica Set
-There is a selector to monitor and initiate pods that match the labels of the selector
+There is a selector to monitor and initiate pods that match the labels of the selector. If you initiate a pod where certain number of pods are already initiated, the initiated pod will deactivate.
+
 ```YAML
 apiVersion: apps/v1
 kind: ReplicaSet
@@ -264,7 +285,20 @@ spec:
       type: front-end
 
 ```
+## Deployments
+A Higher level object from the replica sets, the deployment will be able to deploy a pod by choosing whether a rolling update, or rolling back depending on the definition.
 
+### Configuration File
+> deployment.yml
+
+### Update and rollout
+- Rolling Update  
+  To take down a container and update it seemlessly
+- Recreate Update  
+  To take down the pods / containers all at once and also create them all at once
+
+- How it is applied / Rollbacks
+  Updates are made by creating another replica sets and deleting the replica set when the necessary updates are made. However, if 
 ## Other
 - What is a namespace?
 - What is a service?
